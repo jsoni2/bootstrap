@@ -1,11 +1,13 @@
 package com.udacity.bootstrap.service;
 
 import com.udacity.bootstrap.entity.Dog;
+import com.udacity.bootstrap.exception.DogNotFoundException;
 import com.udacity.bootstrap.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by janaksoni on 5/14/21.
@@ -29,7 +31,8 @@ public class DogServiceImpl implements DogService{
 
     @Override
     public String retrieveDogBreedById(Long id) {
-        return dogRepository.findBreedById(id);
+        Optional<String> optionalBreed = Optional.ofNullable(dogRepository.findBreedById(id));
+        return optionalBreed.orElseThrow(DogNotFoundException::new);
     }
 
     @Override
